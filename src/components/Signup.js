@@ -1,18 +1,13 @@
 /* eslint-disable no-useless-escape */
 
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { auth } from "../Auth";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { ToastContainer, toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
 export default function SignUp() {
-  const navigate = useNavigate();
-
   const [formData, setFormData] = useState({
     userName: "",
     email: "",
@@ -56,34 +51,7 @@ export default function SignUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.error) {
-      await createUserWithEmailAndPassword(
-        auth,
-        formData.email,
-        formData.password
-      )
-        .then(async () => {
-          await updateProfile(auth.currentUser, {
-            displayName: formData.userName,
-          });
-          setFormData((formData) => ({
-            ...formData,
-            error: false,
-            done: true,
-          }));
-        })
-        .catch((error) => {
-          toast.error(error.message);
-          setFormData((formData) => ({
-            ...formData,
-            error: true,
-            done: false,
-          }));
-        });
-
-      navigate("/");
-      window.location.reload();
-    }
+    console.log(formData);
   };
   return (
     <section className="bg-blue-50 h-[90vh] flex justify-center items-center">
@@ -244,7 +212,7 @@ export default function SignUp() {
           </button>
           <span className="text-gray-700">Or</span>
           <div>
-            Already have an account?{" "}
+            Already have an account?
             <Link
               className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
               to="/login"
@@ -254,7 +222,6 @@ export default function SignUp() {
           </div>
         </div>
       </form>
-      <ToastContainer />
     </section>
   );
 }

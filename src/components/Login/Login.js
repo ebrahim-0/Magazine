@@ -1,26 +1,13 @@
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-
-import { ToastContainer, toast } from "react-toastify";
-import { auth } from "../../Auth";
+import { Link } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const navigate = useNavigate();
-
   const handleLogin = async (e) => {
     e.preventDefault();
-
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-
-      navigate("/testlogin");
-    } catch (error) {
-      toast.error(error.message);
-    }
+    console.log(email, password);
   };
 
   return (
@@ -67,15 +54,10 @@ export default function Login() {
           >
             Sign In
           </button>
-          <Link
-            className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-            to="/reset-password"
-          >
-            Forgot Password?
-          </Link>
+
           <span className="text-gray-700">Or</span>
           <div>
-            Create an account?{" "}
+            Create an account?
             <Link
               className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
               to="/signup"
@@ -85,7 +67,6 @@ export default function Login() {
           </div>
         </div>
       </form>
-      <ToastContainer />
     </section>
   );
 }

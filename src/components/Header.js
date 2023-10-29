@@ -1,16 +1,8 @@
-import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Link } from "react-scroll";
 import { FaBars } from "react-icons/fa";
-import { BiUser } from "react-icons/bi";
-import { auth } from "../Auth";
-import { signOut } from "firebase/auth";
-import useGet from "../Hook/useGet";
 
 export default function Header() {
-  const { user } = useGet();
-  const [profile, setProfile] = useState(false);
-
   const navigate = useNavigate();
 
   const NavLinks = (width, position, mobile) => {
@@ -52,29 +44,14 @@ export default function Header() {
           smooth={true}
           offset={-330}
           duration={500}
-          to="organ-donation"
+          to="about"
           onClick={() => {
             mobile();
             navigate("/");
           }}
           className={`hover:text-blue-500 px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 cursor-pointer ${width}`}
         >
-          Organ Donation
-        </Link>
-        <Link
-          activeClass="active-scroll"
-          spy={true}
-          smooth={true}
-          offset={-330}
-          duration={500}
-          to="patients"
-          onClick={() => {
-            mobile();
-            navigate("/");
-          }}
-          className={`hover:text-blue-500 px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 cursor-pointer ${width}`}
-        >
-          Patients
+          Contact Us
         </Link>
         <Link
           activeClass="active-scroll"
@@ -92,51 +69,16 @@ export default function Header() {
           Blog
         </Link>
 
-        {user ? (
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              className="hover:text-blue-500 transition-all duration-300 relative"
-              onClick={() => {
-                setProfile(!profile);
-              }}
-            >
-              <BiUser className="text-3xl" />
-            </button>
-            {profile && (
-              <div
-                className={`profile absolute ${position} mt-3 w-full p-5 rounded-lg bg-white/60 max-w-[320px] flex flex-col gap-2 justify-end items-end border-4 transition-all duration-500`}
-              >
-                <h1 className="capitalize">Welcome ,{user.displayName}</h1>
-                <button
-                  className="bg-red-500 text-white px-2 py-1 rounded-md"
-                  onClick={async () => {
-                    try {
-                      await signOut(auth);
-                      console.log("User logout");
-                      window.location.reload();
-                    } catch (error) {
-                      console.log(error.message);
-                    }
-                  }}
-                >
-                  Log Out
-                </button>
-              </div>
-            )}
-          </div>
-        ) : (
-          <NavLink
-            to="login"
-            onClick={() => {
-              mobile();
-              navigate("/login");
-            }}
-            className={`bg-blue-500 text-white px-3 py-2 hover:bg-blue-400 hover:text-slate-900 rounded text-sm font-medium transition-all duration-300 cursor-pointer ${width}`}
-          >
-            Login
-          </NavLink>
-        )}
+        <NavLink
+          to="login"
+          onClick={() => {
+            mobile();
+            navigate("/login");
+          }}
+          className={`bg-blue-500 text-white px-3 py-2 hover:bg-blue-400 hover:text-slate-900 rounded text-sm font-medium transition-all duration-300 cursor-pointer ${width}`}
+        >
+          Login
+        </NavLink>
       </>
     );
   };
@@ -151,7 +93,7 @@ export default function Header() {
       <nav className="flex justify-between items-center w-4/5 mx-auto py-4">
         <NavLink to="/" className="flex items-center">
           <h1 className="text-blue-500 text-2xl font-bold">
-            Life<span className="text-black">Giver</span>
+            <img src="images/magazine-logo.png" alt="logo" className="w-36" />
           </h1>
         </NavLink>
         {/* Desktop Navigation */}
